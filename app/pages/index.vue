@@ -1,173 +1,89 @@
 <template>
   <section class="landing">
     <div
-      class="landing__gradient"
-      aria-hidden="true"
-    />
-    <div class="landing__stage">
-      <div class="landing__scene">
-        <div class="landing__mountains">
-          <div
-            class="landing__mountain-wrap landing__mountain-wrap--back"
-            :style="mountainParallax(28)"
-          >
-            <div class="landing__mountain-inner landing__mountain-inner--back">
-              <svg
-                class="landing__mountain"
-                viewBox="0 0 961 478"
-                preserveAspectRatio="xMidYMax meet"
-                aria-hidden="true"
-              >
-                <path
-                  d="M81.1396 1.99526C-54.1994 -30.2049 20.6397 337.995 20.6397 337.995L32.1397 477.995H952.64C940.729 308.507 993.14 -128.505 922.14 43.9951C851.14 216.495 659.32 33.0015 554.14 43.9958C449.958 54.8857 314.309 326.605 209.64 322.495C151.838 320.225 137.415 15.3845 81.1396 1.99526Z"
-                  fill="#919191"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div
-            class="landing__mountain-wrap landing__mountain-wrap--front"
-            :style="mountainParallax(52)"
-          >
-            <div class="landing__mountain-inner landing__mountain-inner--front">
-              <svg
-                class="landing__mountain"
-                viewBox="0 0 1178 553"
-                preserveAspectRatio="xMidYMax meet"
-                aria-hidden="true"
-              >
-                <path
-                  d="M130 261.517C23.714 277.06 0 430.018 0 430.018V552.518H1178L1168 143.018C1168 143.018 1129.01 1.62851 1032 0.017794C831.181 -3.31638 628 463.018 445.5 463.018C283.118 463.018 290.673 238.022 130 261.517Z"
-                  fill="#363636"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <img
-        src="/img/frame.svg"
-        alt=""
-        class="landing__frame"
-      >
-
-      <!-- Edit ellipses below -->
-      <svg
-        class="landing__ellipses"
-        viewBox="0 0 120 72"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="ellipses-line-gradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#1F1F1F" />
-            <stop offset="100%" stop-color="#CFCFCF" stop-opacity="0" />
-          </linearGradient>
-        </defs>
-
-        <g class="landing__ellipse-float landing__ellipse-float--1">
-          <g class="landing__ellipse-fall landing__ellipse-fall--1">
-            <line x1="10" y1="0" x2="10" y2="34" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="10" cy="42" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--2">
-          <g class="landing__ellipse-fall landing__ellipse-fall--2">
-            <line x1="28" y1="0" x2="28" y2="40" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="30" cy="46" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--3">
-          <g class="landing__ellipse-fall landing__ellipse-fall--3">
-            <line x1="46" y1="0" x2="46" y2="46" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="50" cy="50" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--4">
-          <g class="landing__ellipse-fall landing__ellipse-fall--4">
-            <line x1="64" y1="0" x2="64" y2="50" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="70" cy="54" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--5">
-          <g class="landing__ellipse-fall landing__ellipse-fall--5">
-            <line x1="82" y1="0" x2="82" y2="54" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="90" cy="58" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--6">
-          <g class="landing__ellipse-fall landing__ellipse-fall--6">
-            <line x1="100" y1="0" x2="100" y2="58" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-            <circle cx="110" cy="62" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-      </svg>
-
-      <!-- Bottom-left ellipses -->
-      <svg
-        class="landing__ellipses landing__ellipses--bottom-left"
-        viewBox="0 0 32 108"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <g class="landing__ellipse-float landing__ellipse-float--bl-1">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-1">
-            <circle cx="16" cy="10" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-2">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-2">
-            <circle cx="16" cy="36" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-3">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-3">
-            <circle cx="16" cy="62" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-4">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-4">
-            <circle cx="16" cy="88" r="8" fill="#1F1F1F" />
-          </g>
-        </g>
-      </svg>
-
-      <div class="landing__bar landing__bar--top" />
-      <div class="landing__bar landing__bar--bottom" />
-
-      <p class="landing__label landing__label--top">
-        Portfolio showcase
-      </p>
-      <p class="landing__label landing__label--bottom">
-        About me
-      </p>
+      class="landing__track"
+      :style="trackStyle"
+    >
+      <LandingSlide
+        v-for="(slide, index) in slides"
+        :key="slide.id"
+        :slide-id="slide.id"
+        :slide-count="slides.length"
+        :animated-mountains="slide.animatedMountains"
+        :mountain-back-style="mountainStyle(index, 28)"
+        :mountain-front-style="mountainStyle(index, 52)"
+        top-label="Portfolio showcase"
+        :bottom-label="slide.bottomLabel"
+        bottom-label-interactive
+        @bottom-label-click="goToSlide(index + 1 >= slides.length ? 0 : index + 1)"
+      />
     </div>
+
+    <nav
+      class="landing-nav"
+      aria-label="Page navigation"
+    >
+      <button
+        v-for="(item, index) in navItems"
+        :key="item.id"
+        type="button"
+        class="landing-nav__link"
+        :class="{ 'landing-nav__link--active': currentSlide === index }"
+        :aria-current="currentSlide === index ? 'page' : undefined"
+        @click="goToSlide(index)"
+      >
+        {{ navLabel(index) }}
+      </button>
+    </nav>
   </section>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 const mouseX = ref(0)
 const mouseY = ref(0)
 const prefersReducedMotion = ref(false)
+const currentSlide = ref(0)
+
+const staticMountainStyle = { transform: 'translateX(-50%)' }
+
+const slides = [
+  { id: 'page-1', animatedMountains: true, bottomLabel: 'About me' },
+  { id: 'page-2', animatedMountains: false, bottomLabel: 'Interest 1' },
+  { id: 'page-3', animatedMountains: false, bottomLabel: 'Interest 2' },
+  { id: 'page-4', animatedMountains: false, bottomLabel: 'Home' },
+] as const
+
+const navItems = [
+  { id: 'nav-home', label: 'home', activeLabel: 'HOME' },
+  { id: 'nav-page-2', label: 'page 2' },
+  { id: 'nav-page-3', label: 'page 3' },
+  { id: 'nav-page-4', label: 'page 4' },
+] as const
+
+function navLabel(index: number) {
+  const item = navItems[index]
+  if (!item) {
+    return ''
+  }
+
+  if (currentSlide.value === index) {
+    return 'activeLabel' in item ? item.activeLabel : item.label.toUpperCase()
+  }
+
+  return item.label
+}
+
+const trackStyle = computed(() => ({
+  width: `${slides.length * 100}%`,
+  transform: `translateX(-${(currentSlide.value / slides.length) * 100}%)`,
+}))
 
 let motionQuery: MediaQueryList | null = null
 
 function handleMouseMove(event: MouseEvent) {
-  if (prefersReducedMotion.value) {
+  if (prefersReducedMotion.value || currentSlide.value !== 0) {
     return
   }
 
@@ -184,11 +100,9 @@ function handleMotionPreference(event: MediaQueryListEvent) {
   }
 }
 
-function mountainParallax(depth: number) {
-  if (prefersReducedMotion.value) {
-    return {
-      transform: 'translateX(-50%)',
-    }
+function mountainStyle(slideIndex: number, depth: number) {
+  if (slideIndex !== 0 || prefersReducedMotion.value) {
+    return staticMountainStyle
   }
 
   const x = mouseX.value * depth
@@ -197,6 +111,10 @@ function mountainParallax(depth: number) {
   return {
     transform: `translate(calc(-50% + ${x}px), ${y}px)`,
   }
+}
+
+function goToSlide(index: number) {
+  currentSlide.value = index
 }
 
 onMounted(() => {
@@ -215,314 +133,75 @@ onUnmounted(() => {
 <style scoped>
 .landing {
   position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+  background-color: #cfcfcf;
+}
+
+.landing__track {
   display: flex;
   min-height: 100vh;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-color: #CFCFCF;
-  padding: 0.75rem 0;
-}
-
-.landing__gradient {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(32vw, 360px);
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(110, 119, 199, 0) 0%,
-    rgba(110, 119, 199, 0.22) 20%,
-    rgba(173, 235, 179, 0.16) 45%,
-    rgba(110, 119, 199, 0.28) 70%,
-    rgba(31, 31, 31, 0.12) 100%
-  );
-  background-size: 100% 220%;
-  animation: gradient-drift 10s ease-in-out infinite;
-  mask-image: linear-gradient(to left, #000 15%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to left, #000 15%, transparent 100%);
-}
-
-.landing__stage {
-  position: relative;
-  z-index: 1;
-  width: min(95vw, 1100px);
-}
-
-.landing__stage::before {
-  content: '';
-  display: block;
-  padding-top: 63.24%;
-}
-
-.landing__scene,
-.landing__frame,
-.landing__ellipses,
-.landing__bar,
-.landing__label {
-  position: absolute;
-}
-
-.landing__scene {
-  inset: 2.2% 2%;
-  overflow: hidden;
-  background: #ffffff;
-}
-
-.landing__mountains {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.landing__mountain-wrap {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transition: transform 0.35s ease-out;
-  will-change: transform;
-}
-
-.landing__mountain-wrap--back {
-  width: 100%;
-  z-index: 1;
-}
-
-.landing__mountain-wrap--front {
-  width: 105%;
-  z-index: 2;
-}
-
-.landing__mountain-inner {
-  width: 100%;
-  animation: mountain-drift 6s ease-in-out infinite;
-}
-
-.landing__mountain-inner--back {
-  animation-duration: 7s;
-  animation-delay: -2s;
-}
-
-.landing__mountain-inner--front {
-  animation-duration: 5s;
-  animation-delay: -3s;
-}
-
-.landing__mountain {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-@keyframes mountain-drift {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-
-  33% {
-    transform: translate(14px, -20px) scale(1.025);
-  }
-
-  66% {
-    transform: translate(-12px, -32px) scale(1.035);
-  }
-}
-
-.landing__frame {
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.landing__ellipses {
-  top: -15%;
-  right: -5%;
-  width: 35%;
-  height: auto;
-  pointer-events: none;
-  z-index: 5;
-  overflow: visible;
-}
-
-.landing__ellipses--bottom-left {
-  top: auto;
-  right: auto;
-  bottom: 6%;
-  left: 1.5%;
-  width: 8%;
-  height: 52%;
-}
-
-.landing__ellipse-fall,
-.landing__ellipse-float {
-  transform-box: fill-box;
-  transform-origin: top center;
-}
-
-.landing__ellipse-fall {
-  animation: ellipse-fall 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.landing__ellipse-fall--1 { animation-delay: 0.2s; }
-.landing__ellipse-fall--2 { animation-delay: 0.35s; }
-.landing__ellipse-fall--3 { animation-delay: 0.5s; }
-.landing__ellipse-fall--4 { animation-delay: 0.65s; }
-.landing__ellipse-fall--5 { animation-delay: 0.8s; }
-.landing__ellipse-fall--6 { animation-delay: 0.95s; }
-
-.landing__ellipse-float {
-  animation: ellipse-float 2.6s ease-in-out infinite;
-}
-
-.landing__ellipse-float--1 { animation-delay: 0.9s; }
-.landing__ellipse-float--2 { animation-delay: 1.05s; }
-.landing__ellipse-float--3 { animation-delay: 1.2s; }
-.landing__ellipse-float--4 { animation-delay: 1.35s; }
-.landing__ellipse-float--5 { animation-delay: 1.5s; }
-.landing__ellipse-float--6 { animation-delay: 1.65s; }
-
-.landing__ellipse-fall--bl-1 { animation-delay: 0.25s; }
-.landing__ellipse-fall--bl-2 { animation-delay: 0.4s; }
-.landing__ellipse-fall--bl-3 { animation-delay: 0.55s; }
-.landing__ellipse-fall--bl-4 { animation-delay: 0.7s; }
-
-.landing__ellipse-float--bl-1 { animation-delay: 0.95s; }
-.landing__ellipse-float--bl-2 { animation-delay: 1.1s; }
-.landing__ellipse-float--bl-3 { animation-delay: 1.25s; }
-.landing__ellipse-float--bl-4 { animation-delay: 1.4s; }
-
-.landing__bar {
-  height: 14%;
-  background-color: #1F1F1F;
-  z-index: 3;
-}
-
-.landing__bar--top {
-  top: 10%;
-  left: calc(-50vw + 50%);
-  width: calc(5vw + 38%);
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.landing__bar--bottom {
-  bottom: 10%;
-  right: calc(-50vw + 50%);
-  width: calc(5vw + 38%);
-  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.landing__label {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  font-family: 'Kapakana', cursive;
-  font-size: clamp(8rem, 10vw, 14rem);
-  line-height: 1;
-  z-index: 4;
-}
-
-.landing__label--top {
-  top: 20%;
-  height: 1%;
-  left: -10%;
-  color: #6e77c7;
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
-
-.landing__label--bottom {
-  bottom: -10%;
-  top: 62%;
-  right: 2%;
-  color: #6e77c7;
-  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
-
-@keyframes gradient-drift {
-  0%,
-  100% {
-    background-position: 0% 80%;
-  }
-
-  50% {
-    background-position: 0% 100%;
-  }
-}
-
-@keyframes slide-in-from-left {
-  from {
-    opacity: 0;
-    transform: translateX(-120%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slide-in-from-right {
-  from {
-    opacity: 0;
-    transform: translateX(120%);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes ellipse-fall {
-  from {
-    opacity: 0;
-    transform: translateY(-36px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes ellipse-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(5px);
-  }
+  transform: translateX(0);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing__gradient {
-    animation: none;
-    background-position: 0% 50%;
-  }
-
-  .landing__bar--top,
-  .landing__bar--bottom,
-  .landing__label--top,
-  .landing__label--bottom,
-  .landing__ellipse-fall,
-  .landing__ellipse-float {
-    animation: none;
-  }
-
-  .landing__mountain-inner {
-    animation: none;
-  }
-
-  .landing__mountain-wrap {
+  .landing__track {
     transition: none;
   }
+}
+
+.landing-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 0;
+  background-color: #cfcfcf;
+}
+
+.landing-nav__link {
+  position: relative;
+  flex: 1;
+  margin: 0;
+  padding: 0 1rem;
+  border: none;
+  background: none;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: clamp(0.75rem, 1.4vw, 0.9375rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: #8a8a8a;
+  text-align: center;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.landing-nav__link:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 1.125rem;
+  background-color: #b8b8b8;
+  transform: translateY(-50%);
+}
+
+.landing-nav__link--active {
+  font-weight: 700;
+  color: #1f1f1f;
+  text-transform: uppercase;
+}
+
+.landing-nav__link:hover:not(.landing-nav__link--active) {
+  color: #555;
 }
 </style>
