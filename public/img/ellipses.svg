@@ -1,0 +1,26 @@
+<svg width="120" height="72" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="line-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1F1F1F" />
+      <stop offset="100%" stop-color="#CFCFCF" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <line x1="10" y1="0" x2="10" y2="34" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="10" cy="38" r="4.5" fill="#1F1F1F" />
+
+  <line x1="28" y1="0" x2="28" y2="40" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="28" cy="44" r="4.5" fill="#1F1F1F" />
+
+  <line x1="46" y1="0" x2="46" y2="46" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="46" cy="50" r="4.5" fill="#1F1F1F" />
+
+  <line x1="64" y1="0" x2="64" y2="50" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="64" cy="54" r="4.5" fill="#1F1F1F" />
+
+  <line x1="82" y1="0" x2="82" y2="54" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="82" cy="58" r="4.5" fill="#1F1F1F" />
+
+  <line x1="100" y1="0" x2="100" y2="58" stroke="url(#line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+  <circle cx="100" cy="62" r="4.5" fill="#1F1F1F" />
+</svg>
