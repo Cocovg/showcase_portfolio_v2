@@ -1,5 +1,9 @@
 <template>
   <section class="landing">
+    <div
+      class="landing__gradient"
+      aria-hidden="true"
+    />
     <div class="landing__stage">
       <div class="landing__scene">
         <img
@@ -184,6 +188,7 @@ onUnmounted(() => {
 
 <style scoped>
 .landing {
+  position: relative;
   display: flex;
   min-height: 100vh;
   width: 100%;
@@ -194,8 +199,31 @@ onUnmounted(() => {
   padding: 0.75rem 0;
 }
 
+.landing__gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(32vw, 360px);
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(110, 119, 199, 0) 0%,
+    rgba(110, 119, 199, 0.22) 20%,
+    rgba(173, 235, 179, 0.16) 45%,
+    rgba(110, 119, 199, 0.28) 70%,
+    rgba(31, 31, 31, 0.12) 100%
+  );
+  background-size: 100% 220%;
+  animation: gradient-drift 10s ease-in-out infinite;
+  mask-image: linear-gradient(to left, #000 15%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, #000 15%, transparent 100%);
+}
+
 .landing__stage {
   position: relative;
+  z-index: 1;
   width: min(95vw, 1100px);
 }
 
@@ -351,6 +379,17 @@ onUnmounted(() => {
   right: 2%;
   color: #6e77c7;
   animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes gradient-drift {
+  0%,
+  100% {
+    background-position: 0% 80%;
+  }
+
+  50% {
+    background-position: 0% 100%;
+  }
 }
 
 @keyframes slide-in-from-left {
