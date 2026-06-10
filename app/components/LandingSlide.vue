@@ -2,6 +2,8 @@
 defineProps<{
   slideId: string
   slideCount: number
+  isActive: boolean
+  showMountains: boolean
   mountainBackStyle: Record<string, string>
   mountainFrontStyle: Record<string, string>
   animatedMountains: boolean
@@ -20,18 +22,22 @@ const emit = defineEmits<{
 <template>
   <div
     class="landing__slide"
+    :class="{ 'landing__slide--active': isActive }"
     :style="{ flex: `0 0 ${100 / slideCount}%` }"
   >
     <div class="landing__stage">
       <div class="landing__scene">
-        <div class="landing__mountains">
+        <div
+          v-if="showMountains"
+          class="landing__mountains"
+        >
           <div
             class="landing__mountain-wrap landing__mountain-wrap--back"
             :style="mountainBackStyle"
           >
             <div
               class="landing__mountain-inner landing__mountain-inner--back"
-              :class="{ 'landing__mountain-inner--animated': animatedMountains }"
+              :class="{ 'landing__mountain-inner--animated': animatedMountains && isActive }"
             >
               <svg
                 class="landing__mountain"
@@ -53,7 +59,7 @@ const emit = defineEmits<{
           >
             <div
               class="landing__mountain-inner landing__mountain-inner--front"
-              :class="{ 'landing__mountain-inner--animated': animatedMountains }"
+              :class="{ 'landing__mountain-inner--animated': animatedMountains && isActive }"
             >
               <svg
                 class="landing__mountain"
@@ -68,6 +74,13 @@ const emit = defineEmits<{
               </svg>
             </div>
           </div>
+        </div>
+
+        <div
+          v-else
+          class="landing__content"
+        >
+          <slot />
         </div>
       </div>
 
@@ -201,6 +214,7 @@ const emit = defineEmits<{
   justify-content: center;
   min-height: 100vh;
   padding: 0.75rem 0;
+  overflow: hidden;
 }
 
 .landing__stage {
@@ -227,6 +241,15 @@ const emit = defineEmits<{
   inset: 2.2% 2%;
   overflow: hidden;
   background: #ffffff;
+}
+
+.landing__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .landing__mountains {
@@ -311,36 +334,46 @@ const emit = defineEmits<{
 }
 
 .landing__ellipse-fall {
+  opacity: 0;
+}
+
+.landing__slide--active .landing__ellipse-fall {
   animation: ellipse-fall 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.landing__ellipse-fall--1 { animation-delay: 0.2s; }
-.landing__ellipse-fall--2 { animation-delay: 0.35s; }
-.landing__ellipse-fall--3 { animation-delay: 0.5s; }
-.landing__ellipse-fall--4 { animation-delay: 0.65s; }
-.landing__ellipse-fall--5 { animation-delay: 0.8s; }
-.landing__ellipse-fall--6 { animation-delay: 0.95s; }
-
-.landing__ellipse-float {
+.landing__slide--active .landing__ellipse-float {
   animation: ellipse-float 2.6s ease-in-out infinite;
 }
 
-.landing__ellipse-float--1 { animation-delay: 0.9s; }
-.landing__ellipse-float--2 { animation-delay: 1.05s; }
-.landing__ellipse-float--3 { animation-delay: 1.2s; }
-.landing__ellipse-float--4 { animation-delay: 1.35s; }
-.landing__ellipse-float--5 { animation-delay: 1.5s; }
-.landing__ellipse-float--6 { animation-delay: 1.65s; }
+.landing__slide--active .landing__ellipse-fall--1 { animation-delay: 0.2s; }
+.landing__slide--active .landing__ellipse-fall--2 { animation-delay: 0.35s; }
+.landing__slide--active .landing__ellipse-fall--3 { animation-delay: 0.5s; }
+.landing__slide--active .landing__ellipse-fall--4 { animation-delay: 0.65s; }
+.landing__slide--active .landing__ellipse-fall--5 { animation-delay: 0.8s; }
+.landing__slide--active .landing__ellipse-fall--6 { animation-delay: 0.95s; }
 
-.landing__ellipse-fall--bl-1 { animation-delay: 0.25s; }
-.landing__ellipse-fall--bl-2 { animation-delay: 0.4s; }
-.landing__ellipse-fall--bl-3 { animation-delay: 0.55s; }
-.landing__ellipse-fall--bl-4 { animation-delay: 0.7s; }
+.landing__slide--active .landing__ellipse-float--1 { animation-delay: 0.9s; }
+.landing__slide--active .landing__ellipse-float--2 { animation-delay: 1.05s; }
+.landing__slide--active .landing__ellipse-float--3 { animation-delay: 1.2s; }
+.landing__slide--active .landing__ellipse-float--4 { animation-delay: 1.35s; }
+.landing__slide--active .landing__ellipse-float--5 { animation-delay: 1.5s; }
+.landing__slide--active .landing__ellipse-float--6 { animation-delay: 1.65s; }
 
-.landing__ellipse-float--bl-1 { animation-delay: 0.95s; }
-.landing__ellipse-float--bl-2 { animation-delay: 1.1s; }
-.landing__ellipse-float--bl-3 { animation-delay: 1.25s; }
-.landing__ellipse-float--bl-4 { animation-delay: 1.4s; }
+.landing__slide--active .landing__ellipse-fall--bl-1 { animation-delay: 0.25s; }
+.landing__slide--active .landing__ellipse-fall--bl-2 { animation-delay: 0.4s; }
+.landing__slide--active .landing__ellipse-fall--bl-3 { animation-delay: 0.55s; }
+.landing__slide--active .landing__ellipse-fall--bl-4 { animation-delay: 0.7s; }
+
+.landing__slide--active .landing__ellipse-float--bl-1 { animation-delay: 0.95s; }
+.landing__slide--active .landing__ellipse-float--bl-2 { animation-delay: 1.1s; }
+.landing__slide--active .landing__ellipse-float--bl-3 { animation-delay: 1.25s; }
+.landing__slide--active .landing__ellipse-float--bl-4 { animation-delay: 1.4s; }
+
+.landing__slide:not(.landing__slide--active) .landing__ellipse-fall,
+.landing__slide:not(.landing__slide--active) .landing__ellipse-float {
+  animation: none;
+  opacity: 0;
+}
 
 .landing__bar {
   height: 14%;
@@ -352,14 +385,26 @@ const emit = defineEmits<{
   top: 10%;
   left: calc(-50vw + 50%);
   width: calc(5vw + 38%);
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing__bar--bottom {
   bottom: 10%;
   right: calc(-50vw + 50%);
   width: calc(5vw + 38%);
+}
+
+.landing__slide--active .landing__bar--top {
+  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing__slide--active .landing__bar--bottom {
   animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing__slide:not(.landing__slide--active) .landing__bar,
+.landing__slide:not(.landing__slide--active) .landing__label {
+  opacity: 0;
+  animation: none;
 }
 
 .landing__label {
@@ -394,7 +439,6 @@ const emit = defineEmits<{
   height: 1%;
   left: -10%;
   color: #889fd1;
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 .landing__label--bottom {
@@ -402,6 +446,13 @@ const emit = defineEmits<{
   top: 62%;
   right: 2%;
   color: #889fd1;
+}
+
+.landing__slide--active .landing__label--top {
+  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.landing__slide--active .landing__label--bottom {
   animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
@@ -468,13 +519,20 @@ const emit = defineEmits<{
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing__bar--top,
-  .landing__bar--bottom,
-  .landing__label--top,
-  .landing__label--bottom,
-  .landing__ellipse-fall,
-  .landing__ellipse-float {
+  .landing__slide--active .landing__bar--top,
+  .landing__slide--active .landing__bar--bottom,
+  .landing__slide--active .landing__label--top,
+  .landing__slide--active .landing__label--bottom,
+  .landing__slide--active .landing__ellipse-fall,
+  .landing__slide--active .landing__ellipse-float {
     animation: none;
+  }
+
+  .landing__slide--active .landing__bar,
+  .landing__slide--active .landing__label,
+  .landing__slide--active .landing__ellipse-fall {
+    opacity: 1;
+    transform: none;
   }
 
   .landing__mountain-inner--animated {

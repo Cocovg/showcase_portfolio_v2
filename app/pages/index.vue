@@ -9,6 +9,8 @@
         :key="slide.id"
         :slide-id="slide.id"
         :slide-count="slides.length"
+        :is-active="currentSlide === index"
+        :show-mountains="slide.showMountains"
         :animated-mountains="slide.animatedMountains"
         :mountain-back-style="mountainStyle(index, 28)"
         :mountain-front-style="mountainStyle(index, 52)"
@@ -49,10 +51,10 @@ const currentSlide = ref(0)
 const staticMountainStyle = { transform: 'translateX(-50%)' }
 
 const slides = [
-  { id: 'page-1', animatedMountains: true, bottomLabel: 'About me' },
-  { id: 'page-2', animatedMountains: false, bottomLabel: 'Interest 1' },
-  { id: 'page-3', animatedMountains: false, bottomLabel: 'Interest 2' },
-  { id: 'page-4', animatedMountains: false, bottomLabel: 'Home' },
+  { id: 'page-1', showMountains: true, animatedMountains: true, bottomLabel: 'About me' },
+  { id: 'page-2', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 1' },
+  { id: 'page-3', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 2' },
+  { id: 'page-4', showMountains: false, animatedMountains: false, bottomLabel: 'Home' },
 ] as const
 
 const navItems = [
