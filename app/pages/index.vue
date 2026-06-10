@@ -11,11 +11,13 @@
           src="/img/mountain_layer2_dark.svg"
           alt=""
           class="landing__mountain landing__mountain--back"
+          :style="{ transform: mountainTransform(14) }"
         >
         <img
           src="/img/mountain_layer1_dark.svg"
           alt=""
           class="landing__mountain landing__mountain--front"
+          :style="{ transform: mountainTransform(28) }"
         >
       </div>
 
@@ -40,23 +42,35 @@
           </linearGradient>
         </defs>
 
-        <line x1="10" y1="0" x2="10" y2="34" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="10" cy="42" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--1">
+          <line x1="10" y1="0" x2="10" y2="34" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="10" cy="42" r="8" fill="#1F1F1F" />
+        </g>
 
-        <line x1="28" y1="0" x2="28" y2="40" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="30" cy="46" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--2">
+          <line x1="28" y1="0" x2="28" y2="40" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="30" cy="46" r="8" fill="#1F1F1F" />
+        </g>
 
-        <line x1="46" y1="0" x2="46" y2="46" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="50" cy="50" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--3">
+          <line x1="46" y1="0" x2="46" y2="46" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="50" cy="50" r="8" fill="#1F1F1F" />
+        </g>
 
-        <line x1="64" y1="0" x2="64" y2="50" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="70" cy="54" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--4">
+          <line x1="64" y1="0" x2="64" y2="50" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="70" cy="54" r="8" fill="#1F1F1F" />
+        </g>
 
-        <line x1="82" y1="0" x2="82" y2="54" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="90" cy="58" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--5">
+          <line x1="82" y1="0" x2="82" y2="54" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="90" cy="58" r="8" fill="#1F1F1F" />
+        </g>
 
-        <line x1="100" y1="0" x2="100" y2="58" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
-        <circle cx="110" cy="62" r="8" fill="#1F1F1F" />
+        <g class="landing__ellipse landing__ellipse--6">
+          <line x1="100" y1="0" x2="100" y2="58" stroke="url(#ellipses-line-gradient)" stroke-width="2.5" stroke-linecap="round" />
+          <circle cx="110" cy="62" r="8" fill="#1F1F1F" />
+        </g>
       </svg>
 
       <div class="landing__bar landing__bar--top" />
@@ -71,6 +85,57 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
+
+const mouseX = ref(0)
+const mouseY = ref(0)
+const prefersReducedMotion = ref(false)
+
+let motionQuery: MediaQueryList | null = null
+
+function handleMouseMove(event: MouseEvent) {
+  if (prefersReducedMotion.value) {
+    return
+  }
+
+  mouseX.value = (event.clientX / window.innerWidth - 0.5) * 2
+  mouseY.value = (event.clientY / window.innerHeight - 0.5) * 2
+}
+
+function handleMotionPreference(event: MediaQueryListEvent) {
+  prefersReducedMotion.value = event.matches
+
+  if (event.matches) {
+    mouseX.value = 0
+    mouseY.value = 0
+  }
+}
+
+function mountainTransform(depth: number) {
+  if (prefersReducedMotion.value) {
+    return 'translateX(-50%)'
+  }
+
+  const x = mouseX.value * depth
+  const y = mouseY.value * depth * 0.35
+
+  return `translate(calc(-50% + ${x}px), ${y}px)`
+}
+
+onMounted(() => {
+  motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  prefersReducedMotion.value = motionQuery.matches
+  motionQuery.addEventListener('change', handleMotionPreference)
+  window.addEventListener('mousemove', handleMouseMove)
+})
+
+onUnmounted(() => {
+  motionQuery?.removeEventListener('change', handleMotionPreference)
+  window.removeEventListener('mousemove', handleMouseMove)
+})
+</script>
 
 <style scoped>
 .landing {
@@ -120,11 +185,12 @@
   position: absolute;
   left: 50%;
   bottom: 0;
-  transform: translateX(-50%);
   width: 97%;
   max-width: none;
   object-fit: contain;
   object-position: bottom center;
+  transition: transform 0.35s ease-out;
+  will-change: transform;
 }
 
 .landing__mountain--back {
@@ -146,7 +212,21 @@
   height: auto;
   pointer-events: none;
   z-index: 5;
+  overflow: visible;
 }
+
+.landing__ellipse {
+  transform-box: fill-box;
+  transform-origin: top center;
+  animation: ellipse-fall 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing__ellipse--1 { animation-delay: 0.2s; }
+.landing__ellipse--2 { animation-delay: 0.35s; }
+.landing__ellipse--3 { animation-delay: 0.5s; }
+.landing__ellipse--4 { animation-delay: 0.65s; }
+.landing__ellipse--5 { animation-delay: 0.8s; }
+.landing__ellipse--6 { animation-delay: 0.95s; }
 
 .landing__bar {
   height: 14%;
@@ -158,12 +238,14 @@
   top: 10%;
   left: calc(-50vw + 50%);
   width: calc(5vw + 38%);
+  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing__bar--bottom {
   bottom: 10%;
   right: calc(-50vw + 50%);
   width: calc(5vw + 38%);
+  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing__label {
@@ -181,6 +263,7 @@
   height: 1%;
   left: -10%;
   color: #9ba3e8;
+  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
 .landing__label--bottom {
@@ -188,5 +271,56 @@
   top: 64%;
   right: 2%;
   color: #adebb3;
+  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes slide-in-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes ellipse-fall {
+  from {
+    opacity: 0;
+    transform: translateY(-36px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing__bar--top,
+  .landing__bar--bottom,
+  .landing__label--top,
+  .landing__label--bottom,
+  .landing__ellipse {
+    animation: none;
+  }
+
+  .landing__mountain {
+    transition: none;
+  }
 }
 </style>
