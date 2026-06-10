@@ -6,23 +6,45 @@
     />
     <div class="landing__stage">
       <div class="landing__scene">
-        <img
-          src="/img/background_white.svg"
-          alt=""
-          class="landing__bg"
-        >
-        <img
-          src="/img/mountain_layer2_dark.svg"
-          alt=""
-          class="landing__mountain landing__mountain--back"
-          :style="{ transform: mountainTransform(14) }"
-        >
-        <img
-          src="/img/mountain_layer1_dark.svg"
-          alt=""
-          class="landing__mountain landing__mountain--front"
-          :style="{ transform: mountainTransform(28) }"
-        >
+        <div class="landing__mountains">
+          <div
+            class="landing__mountain-wrap landing__mountain-wrap--back"
+            :style="mountainParallax(28)"
+          >
+            <div class="landing__mountain-inner landing__mountain-inner--back">
+              <svg
+                class="landing__mountain"
+                viewBox="0 0 961 478"
+                preserveAspectRatio="xMidYMax meet"
+                aria-hidden="true"
+              >
+                <path
+                  d="M81.1396 1.99526C-54.1994 -30.2049 20.6397 337.995 20.6397 337.995L32.1397 477.995H952.64C940.729 308.507 993.14 -128.505 922.14 43.9951C851.14 216.495 659.32 33.0015 554.14 43.9958C449.958 54.8857 314.309 326.605 209.64 322.495C151.838 320.225 137.415 15.3845 81.1396 1.99526Z"
+                  fill="#919191"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div
+            class="landing__mountain-wrap landing__mountain-wrap--front"
+            :style="mountainParallax(52)"
+          >
+            <div class="landing__mountain-inner landing__mountain-inner--front">
+              <svg
+                class="landing__mountain"
+                viewBox="0 0 1178 553"
+                preserveAspectRatio="xMidYMax meet"
+                aria-hidden="true"
+              >
+                <path
+                  d="M130 261.517C23.714 277.06 0 430.018 0 430.018V552.518H1178L1168 143.018C1168 143.018 1129.01 1.62851 1032 0.017794C831.181 -3.31638 628 463.018 445.5 463.018C283.118 463.018 290.673 238.022 130 261.517Z"
+                  fill="#363636"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
       <img
@@ -162,15 +184,19 @@ function handleMotionPreference(event: MediaQueryListEvent) {
   }
 }
 
-function mountainTransform(depth: number) {
+function mountainParallax(depth: number) {
   if (prefersReducedMotion.value) {
-    return 'translateX(-50%)'
+    return {
+      transform: 'translateX(-50%)',
+    }
   }
 
   const x = mouseX.value * depth
-  const y = mouseY.value * depth * 0.35
+  const y = mouseY.value * depth * 0.55
 
-  return `translate(calc(-50% + ${x}px), ${y}px)`
+  return {
+    transform: `translate(calc(-50% + ${x}px), ${y}px)`,
+  }
 }
 
 onMounted(() => {
@@ -244,30 +270,67 @@ onUnmounted(() => {
 .landing__scene {
   inset: 2.2% 2%;
   overflow: hidden;
+  background: #ffffff;
 }
 
-.landing__bg {
+.landing__mountains {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  overflow: hidden;
 }
 
-.landing__mountain {
+.landing__mountain-wrap {
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: 105%;
-  max-width: none;
-  object-fit: contain;
-  object-position: bottom center;
   transition: transform 0.35s ease-out;
   will-change: transform;
 }
 
-.landing__mountain--back {
-  width: 108%;
+.landing__mountain-wrap--back {
+  width: 100%;
+  z-index: 1;
+}
+
+.landing__mountain-wrap--front {
+  width: 105%;
+  z-index: 2;
+}
+
+.landing__mountain-inner {
+  width: 100%;
+  animation: mountain-drift 6s ease-in-out infinite;
+}
+
+.landing__mountain-inner--back {
+  animation-duration: 7s;
+  animation-delay: -2s;
+}
+
+.landing__mountain-inner--front {
+  animation-duration: 5s;
+  animation-delay: -3s;
+}
+
+.landing__mountain {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes mountain-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(14px, -20px) scale(1.025);
+  }
+
+  66% {
+    transform: translate(-12px, -32px) scale(1.035);
+  }
 }
 
 .landing__frame {
@@ -440,6 +503,11 @@ onUnmounted(() => {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .landing__gradient {
+    animation: none;
+    background-position: 0% 50%;
+  }
+
   .landing__bar--top,
   .landing__bar--bottom,
   .landing__label--top,
@@ -449,7 +517,11 @@ onUnmounted(() => {
     animation: none;
   }
 
-  .landing__mountain {
+  .landing__mountain-inner {
+    animation: none;
+  }
+
+  .landing__mountain-wrap {
     transition: none;
   }
 }
