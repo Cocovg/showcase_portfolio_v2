@@ -9,6 +9,7 @@ defineProps<{
   animatedMountains: boolean
   topLabel: string
   bottomLabel: string
+  bodyText?: string
   topLabelInteractive?: boolean
   bottomLabelInteractive?: boolean
 }>()
@@ -77,10 +78,15 @@ const emit = defineEmits<{
         </div>
 
         <div
-          v-else
+          v-if="bodyText || !showMountains"
           class="landing__content"
         >
-          <slot />
+          <div class="landing__text-block">
+            <p v-if="bodyText">
+              {{ bodyText }}
+            </p>
+            <slot v-else />
+          </div>
         </div>
       </div>
 
@@ -90,7 +96,7 @@ const emit = defineEmits<{
         class="landing__frame"
       >
 
-      <!-- Edit ellipses below -->
+      <!-- Top-right ellipses (disabled for now)
       <svg
         class="landing__ellipses"
         viewBox="0 0 120 72"
@@ -147,6 +153,7 @@ const emit = defineEmits<{
           </g>
         </g>
       </svg>
+      -->
 
       <!-- Bottom-left ellipses -->
       <svg
@@ -158,25 +165,25 @@ const emit = defineEmits<{
       >
         <g class="landing__ellipse-float landing__ellipse-float--bl-1">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-1">
-            <circle cx="16" cy="10" r="8" fill="#1F1F1F" />
+            <circle cx="16" cy="10" r="8" fill="#5E7AB5" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-2">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-2">
-            <circle cx="16" cy="36" r="8" fill="#1F1F1F" />
+            <circle cx="16" cy="36" r="8" fill="#5E7AB5" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-3">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-3">
-            <circle cx="16" cy="62" r="8" fill="#1F1F1F" />
+            <circle cx="16" cy="62" r="8" fill="#5E7AB5" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-4">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-4">
-            <circle cx="16" cy="88" r="8" fill="#1F1F1F" />
+            <circle cx="16" cy="88" r="8" fill="#5E7AB5" />
           </g>
         </g>
       </svg>
@@ -246,10 +253,29 @@ const emit = defineEmits<{
 .landing__content {
   position: absolute;
   inset: 0;
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 12% 0%;
+}
+
+.landing__text-block {
+  width: 100%;
+  max-width: 18rem;
+  min-height: 75%;
+  max-height: 100%;
+  padding: 1.75rem 2rem;
+  background-color: #1f1f1f;
+  color: #ffffff;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: clamp(0.875rem, 1.6vw, 1rem);
+  line-height: 1.6;
+  overflow: auto;
+}
+
+.landing__text-block p {
+  margin: 0;
 }
 
 .landing__mountains {
@@ -376,15 +402,15 @@ const emit = defineEmits<{
 }
 
 .landing__bar {
-  height: 14%;
+  height: 6%;
   background-color: #1F1F1F;
   z-index: 3;
 }
 
 .landing__bar--top {
-  top: 10%;
+  top: 16%;
   left: calc(-50vw + 50%);
-  width: calc(5vw + 38%);
+  width: calc(5vw + 75%);
 }
 
 .landing__bar--bottom {
@@ -435,17 +461,17 @@ const emit = defineEmits<{
 }
 
 .landing__label--top {
-  top: 20%;
+  top: 17%;
   height: 1%;
   left: -10%;
-  color: #889fd1;
+  color: #5e7ab5;
 }
 
 .landing__label--bottom {
   bottom: -10%;
   top: 62%;
-  right: 2%;
-  color: #889fd1;
+  right: -5%;
+  color: #5e7ab5;
 }
 
 .landing__slide--active .landing__label--top {

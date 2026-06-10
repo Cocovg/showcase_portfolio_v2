@@ -16,6 +16,7 @@
         :mountain-front-style="mountainStyle(index, 52)"
         top-label="Portfolio showcase"
         :bottom-label="slide.bottomLabel"
+        :body-text="'bodyText' in slide ? slide.bodyText : undefined"
         bottom-label-interactive
         @bottom-label-click="goToSlide(index + 1 >= slides.length ? 0 : index + 1)"
       />
@@ -51,7 +52,13 @@ const currentSlide = ref(0)
 const staticMountainStyle = { transform: 'translateX(-50%)' }
 
 const slides = [
-  { id: 'page-1', showMountains: true, animatedMountains: true, bottomLabel: 'About me' },
+  {
+    id: 'page-1',
+    showMountains: true,
+    animatedMountains: true,
+    bottomLabel: 'About me',
+    bodyText: 'Welcome to my Semester 4 portfolio. Here I\'ll simply show you some of my creative ideas and thoughts in the form of a website. In next slides ill share with you my thoughts and ways of thinking. Thanks for your time! :)',
+  },
   { id: 'page-2', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 1' },
   { id: 'page-3', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 2' },
   { id: 'page-4', showMountains: false, animatedMountains: false, bottomLabel: 'Home' },
