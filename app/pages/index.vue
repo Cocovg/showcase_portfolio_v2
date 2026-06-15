@@ -171,7 +171,6 @@ onUnmounted(() => {
   align-items: center;
   width: 100%;
   padding: 1.25rem 0;
-  background-color: #cfcfcf;
 }
 
 .landing-nav__link {

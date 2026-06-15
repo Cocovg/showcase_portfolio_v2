@@ -26,6 +26,39 @@ const emit = defineEmits<{
     :class="{ 'landing__slide--active': isActive }"
     :style="{ flex: `0 0 ${100 / slideCount}%` }"
   >
+    <!-- Corner blobs (disabled for now)
+    <div
+      class="landing__blobs"
+      aria-hidden="true"
+    >
+      <div class="landing__blob landing__blob--top-right">
+        <div
+          class="landing__blob-inner"
+          :class="{ 'landing__blob-inner--animated': isActive }"
+        >
+          <img
+            src="/img/blob.svg"
+            alt=""
+            class="landing__blob-image"
+          >
+        </div>
+      </div>
+
+      <div class="landing__blob landing__blob--bottom-left">
+        <div
+          class="landing__blob-inner"
+          :class="{ 'landing__blob-inner--animated': isActive }"
+        >
+          <img
+            src="/img/blob.svg"
+            alt=""
+            class="landing__blob-image"
+          >
+        </div>
+      </div>
+    </div>
+    -->
+
     <div class="landing__stage">
       <div class="landing__scene">
         <div
@@ -52,6 +85,14 @@ const emit = defineEmits<{
                 />
               </svg>
             </div>
+          </div>
+
+          <div class="landing__mountain-sun">
+            <img
+              src="/img/ellipse_blue.svg"
+              alt=""
+              class="landing__mountain-sun-image"
+            >
           </div>
 
           <div
@@ -216,12 +257,52 @@ const emit = defineEmits<{
 
 <style scoped>
 .landing__slide {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 0.75rem 0;
   overflow: hidden;
+}
+
+.landing__blobs {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.landing__blob {
+  position: absolute;
+  width: min(58vw, 28rem);
+}
+
+.landing__blob-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.landing__blob--top-right {
+  top: -4%;
+  right: -10%;
+}
+
+.landing__blob--bottom-left {
+  bottom: 15%;
+  left: -14%;
+}
+
+.landing__blob-inner--animated {
+  animation: blob-drift 8s ease-in-out infinite;
+}
+
+.landing__blob--bottom-left .landing__blob-inner--animated {
+  animation-name: blob-drift-alt;
+  animation-duration: 10s;
+  animation-delay: -4s;
 }
 
 .landing__stage {
@@ -246,8 +327,10 @@ const emit = defineEmits<{
 
 .landing__scene {
   inset: 2.2% 2%;
+  z-index: 1;
   overflow: hidden;
   background: #ffffff;
+  isolation: isolate;
 }
 
 .landing__content {
@@ -297,9 +380,24 @@ const emit = defineEmits<{
   z-index: 1;
 }
 
-.landing__mountain-wrap--front {
-  width: 105%;
+.landing__mountain-sun {
+  position: absolute;
+  top: 14%;
+  right: 10%;
+  width: 26%;
   z-index: 2;
+  pointer-events: none;
+}
+
+.landing__mountain-sun-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.landing__mountain-wrap--front {
+  width: 100%;
+  z-index: 3;
 }
 
 .landing__mountain-inner {
@@ -482,6 +580,44 @@ const emit = defineEmits<{
   animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
 }
 
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(36px, -32px) scale(1.08) rotate(5deg);
+  }
+
+  50% {
+    transform: translate(-28px, 26px) scale(0.92) rotate(-4deg);
+  }
+
+  75% {
+    transform: translate(24px, 38px) scale(1.06) rotate(3deg);
+  }
+}
+
+@keyframes blob-drift-alt {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-34px, 28px) scale(1.07) rotate(-5deg);
+  }
+
+  50% {
+    transform: translate(30px, -24px) scale(0.93) rotate(4deg);
+  }
+
+  75% {
+    transform: translate(-22px, -36px) scale(1.05) rotate(-3deg);
+  }
+}
+
 @keyframes mountain-drift {
   0%,
   100% {
@@ -550,7 +686,8 @@ const emit = defineEmits<{
   .landing__slide--active .landing__label--top,
   .landing__slide--active .landing__label--bottom,
   .landing__slide--active .landing__ellipse-fall,
-  .landing__slide--active .landing__ellipse-float {
+  .landing__slide--active .landing__ellipse-float,
+  .landing__blob-inner--animated {
     animation: none;
   }
 
