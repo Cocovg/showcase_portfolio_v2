@@ -136,6 +136,14 @@ function toggleTextBlock() {
               { 'landing__mountain-sun--clickable': showMountains && isActive && !textBlockVisible },
             ]"
           >
+            <div
+              v-if="showMountains && isActive && !textBlockVisible"
+              class="landing__mountain-sun-effects"
+              aria-hidden="true"
+              :style="{ '--sun-accent': sunColor }"
+            >
+              <span class="landing__mountain-sun-ring" />
+            </div>
             <img
               :src="sunSrc"
               alt=""
@@ -515,8 +523,36 @@ function toggleTextBlock() {
   position: absolute;
   right: 10%;
   width: 26%;
+  aspect-ratio: 1;
   z-index: 2;
   pointer-events: none;
+}
+
+.landing__mountain-sun-effects {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.landing__mountain-sun-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2.5px solid var(--sun-accent, #5e7ab5);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  animation: sun-ring-pulse 3.5s ease-out 1.1s infinite;
+}
+
+.landing__mountain-sun-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .landing__mountain-sun--low {
@@ -538,12 +574,6 @@ function toggleTextBlock() {
 
 .landing__slide--active .landing__mountain-sun--low {
   animation: sun-arrive-low 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
-}
-
-.landing__mountain-sun-image {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 .landing__slide--active .landing__mountain-sun--clickable .landing__mountain-sun-image {
@@ -822,6 +852,36 @@ function toggleTextBlock() {
   }
 }
 
+@keyframes sun-ring-pulse {
+  0%,
+  3%,
+  32%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  3.57% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+
+  12% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+
+  22% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1.38);
+  }
+
+  30% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.52);
+  }
+}
+
 @keyframes sun-arrive-high {
   from {
     top: 22%;
@@ -918,6 +978,7 @@ function toggleTextBlock() {
   .landing__slide--active .landing__mountain-sun--high,
   .landing__slide--active .landing__mountain-sun--low,
   .landing__slide--active .landing__mountain-sun--clickable .landing__mountain-sun-image,
+  .landing__slide--active .landing__mountain-sun-ring,
   .landing__blob-inner--animated {
     animation: none;
   }
