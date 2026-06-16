@@ -19,7 +19,7 @@ const props = withDefaults(
     labelColor?: string
     topLabel: string
     bottomLabel: string
-    bodyText?: string
+    bodyHtml?: string
     topLabelInteractive?: boolean
     bottomLabelInteractive?: boolean
   }>(),
@@ -181,9 +181,11 @@ function toggleTextBlock() {
           class="landing__content"
         >
           <div class="landing__text-block">
-            <p v-if="bodyText">
-              {{ bodyText }}
-            </p>
+            <div
+              v-if="bodyHtml"
+              class="landing__text-block-body"
+              v-html="bodyHtml"
+            />
             <slot v-else />
           </div>
         </div>
@@ -399,26 +401,94 @@ function toggleTextBlock() {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12% 0%;
+  padding: 9% 5%;
   animation: text-block-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing__text-block {
-  width: 100%;
-  max-width: 18rem;
-  min-height: 75%;
+  width: fit-content;
+  max-width: min(100%, 46rem);
+  min-width: min(100%, 16rem);
   max-height: 100%;
-  padding: 1.75rem 2rem;
+  padding: 1.35rem 1.5rem;
   background-color: #1f1f1f;
   color: #ffffff;
-  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  font-size: clamp(0.875rem, 1.6vw, 1rem);
-  line-height: 1.6;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: clamp(0.6875rem, 1.05vw, 0.8125rem);
+  font-weight: 400;
+  line-height: 1.55;
+  text-align: left;
   overflow: auto;
 }
 
-.landing__text-block p {
+.landing__text-block:has(.landing__text-block-body > p:only-child) {
+  max-width: min(100%, 22rem);
+}
+
+.landing__text-block:has(.landing__text-block-body > :nth-child(3)) {
+  min-width: min(100%, 30rem);
+  max-width: min(100%, 46rem);
+}
+
+.landing__text-block-body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1.25rem, 3vw, 2.5rem);
+  row-gap: 0;
+}
+
+.landing__text-block-body :deep(h1),
+.landing__text-block-body :deep(h2),
+.landing__text-block-body :deep(h3),
+.landing__text-block-body :deep(p:first-child:nth-last-child(3)) {
+  grid-column: 1 / -1;
+  margin: 0 0 1rem;
+  font-size: inherit;
+  font-weight: 400;
+  font-family: inherit;
+}
+
+.landing__text-block-body :deep(p) {
   margin: 0;
+}
+
+.landing__text-block-body :deep(p:only-child),
+.landing__text-block-body :deep(p:nth-child(2):last-child) {
+  grid-column: 1 / -1;
+}
+
+.landing__text-block-body :deep(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.landing__text-block-body :deep(strong) {
+  font-weight: 700;
+}
+
+.landing__text-block-body :deep(ul),
+.landing__text-block-body :deep(ol) {
+  margin: 0 0 1em;
+  padding-left: 1.25em;
+}
+
+.landing__text-block-body :deep(li + li) {
+  margin-top: 0.35em;
+}
+
+@media (max-width: 720px) {
+  .landing__text-block-body {
+    grid-template-columns: 1fr;
+  }
+
+  .landing__text-block-body :deep(p) {
+    grid-column: 1 / -1;
+  }
+
+  .landing__text-block-body :deep(p + p) {
+    margin-top: 1rem;
+  }
 }
 
 .landing__mountains {

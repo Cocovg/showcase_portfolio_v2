@@ -23,7 +23,7 @@
         :mountain-front-style="mountainStyle(index, 52)"
         top-label="Portfolio showcase"
         :bottom-label="slide.bottomLabel"
-        :body-text="slide.bodyText"
+        :body-html="getSlideContentHtml(slide.id)"
         bottom-label-interactive
         @bottom-label-click="goToSlide(index + 1 >= slides.length ? 0 : index + 1)"
       />
@@ -50,6 +50,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { getSlideContentHtml } from '~/utils/slideContent'
 
 const mouseX = ref(0)
 const mouseY = ref(0)
@@ -71,7 +72,6 @@ const slides = [
     sunColor: '#C1576E',
     labelColor: '#8CB6FF',
     bottomLabel: 'About me',
-    bodyText: 'Welcome to my Semester 4 portfolio. Here I\'ll simply show you some of my creative ideas and thoughts in the form of a website. In next slides ill share with you my thoughts and ways of thinking. Thanks for your time! :)',
   },
   {
     id: 'page-2',
@@ -85,7 +85,6 @@ const slides = [
     sunColor: '#8CB6FF',
     labelColor: '#DB9330',
     bottomLabel: 'Interest 1',
-    bodyText: 'This is where I share my first interest — the ideas, projects, and creative work that inspire me most.',
   },
   {
     id: 'page-3',
@@ -99,7 +98,6 @@ const slides = [
     sunColor: '#DB9330',
     labelColor: '#C1576E',
     bottomLabel: 'Interest 2',
-    bodyText: 'This is where I share my second interest — another side of how I think, create, and explore new ideas.',
   },
   {
     id: 'page-4',
@@ -113,7 +111,6 @@ const slides = [
     sunColor: '#1F1F1F',
     labelColor: '#7F479D',
     bottomLabel: 'Home',
-    bodyText: 'Thanks for visiting my portfolio. Feel free to reach out — I\'d love to hear from you!',
   },
 ] as const
 
