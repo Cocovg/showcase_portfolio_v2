@@ -12,11 +12,18 @@
         :is-active="currentSlide === index"
         :show-mountains="slide.showMountains"
         :animated-mountains="slide.animatedMountains"
+        :sun-position="slide.sunPosition"
+        :scene-background="'sceneBackground' in slide ? slide.sceneBackground : undefined"
+        :mountain-back-color="'mountainBackColor' in slide ? slide.mountainBackColor : undefined"
+        :mountain-front-color="'mountainFrontColor' in slide ? slide.mountainFrontColor : undefined"
+        :sun-src="'sunSrc' in slide ? slide.sunSrc : undefined"
+        :sun-color="'sunColor' in slide ? slide.sunColor : undefined"
+        :label-color="'labelColor' in slide ? slide.labelColor : undefined"
         :mountain-back-style="mountainStyle(index, 28)"
         :mountain-front-style="mountainStyle(index, 52)"
         top-label="Portfolio showcase"
         :bottom-label="slide.bottomLabel"
-        :body-text="'bodyText' in slide ? slide.bodyText : undefined"
+        :body-text="slide.bodyText"
         bottom-label-interactive
         @bottom-label-click="goToSlide(index + 1 >= slides.length ? 0 : index + 1)"
       />
@@ -56,12 +63,58 @@ const slides = [
     id: 'page-1',
     showMountains: true,
     animatedMountains: true,
+    sunPosition: 'low',
+    sceneBackground: '#EDB4C1',
+    mountainBackColor: '#8CB6FF',
+    mountainFrontColor: '#DB9330',
+    sunSrc: '/img/ellipse_pink.svg',
+    sunColor: '#C1576E',
+    labelColor: '#8CB6FF',
     bottomLabel: 'About me',
     bodyText: 'Welcome to my Semester 4 portfolio. Here I\'ll simply show you some of my creative ideas and thoughts in the form of a website. In next slides ill share with you my thoughts and ways of thinking. Thanks for your time! :)',
   },
-  { id: 'page-2', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 1' },
-  { id: 'page-3', showMountains: false, animatedMountains: false, bottomLabel: 'Interest 2' },
-  { id: 'page-4', showMountains: false, animatedMountains: false, bottomLabel: 'Home' },
+  {
+    id: 'page-2',
+    showMountains: true,
+    animatedMountains: false,
+    sunPosition: 'high',
+    sceneBackground: '#D4E4FF',
+    mountainBackColor: '#DB9330',
+    mountainFrontColor: '#C1576E',
+    sunSrc: '/img/ellipse_new_lbue.svg',
+    sunColor: '#8CB6FF',
+    labelColor: '#DB9330',
+    bottomLabel: 'Interest 1',
+    bodyText: 'This is where I share my first interest — the ideas, projects, and creative work that inspire me most.',
+  },
+  {
+    id: 'page-3',
+    showMountains: true,
+    animatedMountains: false,
+    sunPosition: 'low',
+    sceneBackground: '#FFCA74',
+    mountainBackColor: '#C1576E',
+    mountainFrontColor: '#7F479D',
+    sunSrc: '/img/ellipse_orange.svg',
+    sunColor: '#DB9330',
+    labelColor: '#C1576E',
+    bottomLabel: 'Interest 2',
+    bodyText: 'This is where I share my second interest — another side of how I think, create, and explore new ideas.',
+  },
+  {
+    id: 'page-4',
+    showMountains: true,
+    animatedMountains: false,
+    sunPosition: 'high',
+    sceneBackground: '#383838',
+    mountainBackColor: '#7F479D',
+    mountainFrontColor: '#8CB6FF',
+    sunSrc: '/img/ellipse_black.svg',
+    sunColor: '#1F1F1F',
+    labelColor: '#7F479D',
+    bottomLabel: 'Home',
+    bodyText: 'Thanks for visiting my portfolio. Feel free to reach out — I\'d love to hear from you!',
+  },
 ] as const
 
 const navItems = [
@@ -146,7 +199,6 @@ onUnmounted(() => {
   width: 100vw;
   max-width: 100%;
   overflow: hidden;
-  background-color: #cfcfcf;
 }
 
 .landing__track {
@@ -171,6 +223,7 @@ onUnmounted(() => {
   align-items: center;
   width: 100%;
   padding: 1.25rem 0;
+  background: transparent;
 }
 
 .landing-nav__link {

@@ -1,30 +1,69 @@
 <script setup lang="ts">
-defineProps<{
-  slideId: string
-  slideCount: number
-  isActive: boolean
-  showMountains: boolean
-  mountainBackStyle: Record<string, string>
-  mountainFrontStyle: Record<string, string>
-  animatedMountains: boolean
-  topLabel: string
-  bottomLabel: string
-  bodyText?: string
-  topLabelInteractive?: boolean
-  bottomLabelInteractive?: boolean
-}>()
+import { ref, watch } from 'vue'
+
+const props = withDefaults(
+  defineProps<{
+    slideId: string
+    slideCount: number
+    isActive: boolean
+    showMountains: boolean
+    mountainBackStyle: Record<string, string>
+    mountainFrontStyle: Record<string, string>
+    animatedMountains: boolean
+    sunPosition: 'low' | 'high'
+    sceneBackground?: string
+    mountainBackColor?: string
+    mountainFrontColor?: string
+    sunSrc?: string
+    sunColor?: string
+    labelColor?: string
+    topLabel: string
+    bottomLabel: string
+    bodyText?: string
+    topLabelInteractive?: boolean
+    bottomLabelInteractive?: boolean
+  }>(),
+  {
+    sceneBackground: '#ffffff',
+    mountainBackColor: '#919191',
+    mountainFrontColor: '#363636',
+    sunSrc: '/img/ellipse_blue.svg',
+    sunColor: '#5E7AB5',
+    labelColor: '#5e7ab5',
+  },
+)
 
 const emit = defineEmits<{
   topLabelClick: []
   bottomLabelClick: []
 }>()
+
+const textBlockVisible = ref(false)
+
+watch(
+  () => props.isActive,
+  (active) => {
+    if (!active) {
+      textBlockVisible.value = false
+    }
+  },
+)
+
+function toggleTextBlock() {
+  if (props.showMountains) {
+    textBlockVisible.value = !textBlockVisible.value
+  }
+}
 </script>
 
 <template>
   <div
     class="landing__slide"
     :class="{ 'landing__slide--active': isActive }"
-    :style="{ flex: `0 0 ${100 / slideCount}%` }"
+    :style="{
+      flex: `0 0 ${100 / slideCount}%`,
+      backgroundColor: mountainFrontColor,
+    }"
   >
     <!-- Corner blobs (disabled for now)
     <div
@@ -60,7 +99,10 @@ const emit = defineEmits<{
     -->
 
     <div class="landing__stage">
-      <div class="landing__scene">
+      <div
+        class="landing__scene"
+        :style="{ backgroundColor: sceneBackground }"
+      >
         <div
           v-if="showMountains"
           class="landing__mountains"
@@ -81,19 +123,35 @@ const emit = defineEmits<{
               >
                 <path
                   d="M81.1396 1.99526C-54.1994 -30.2049 20.6397 337.995 20.6397 337.995L32.1397 477.995H952.64C940.729 308.507 993.14 -128.505 922.14 43.9951C851.14 216.495 659.32 33.0015 554.14 43.9958C449.958 54.8857 314.309 326.605 209.64 322.495C151.838 320.225 137.415 15.3845 81.1396 1.99526Z"
-                  fill="#919191"
+                  :fill="mountainBackColor"
                 />
               </svg>
             </div>
           </div>
 
-          <div class="landing__mountain-sun">
+          <div
+            class="landing__mountain-sun"
+            :class="[
+              sunPosition === 'low' ? 'landing__mountain-sun--low' : 'landing__mountain-sun--high',
+              { 'landing__mountain-sun--clickable': showMountains && isActive && !textBlockVisible },
+            ]"
+          >
             <img
-              src="/img/ellipse_blue.svg"
+              :src="sunSrc"
               alt=""
               class="landing__mountain-sun-image"
             >
           </div>
+
+          <button
+            v-if="showMountains && isActive"
+            type="button"
+            class="landing__mountain-sun-hit"
+            :class="sunPosition === 'low' ? 'landing__mountain-sun--low' : 'landing__mountain-sun--high'"
+            :aria-label="textBlockVisible ? 'Hide text' : 'Show text'"
+            :aria-expanded="textBlockVisible"
+            @click="toggleTextBlock"
+          />
 
           <div
             class="landing__mountain-wrap landing__mountain-wrap--front"
@@ -111,7 +169,7 @@ const emit = defineEmits<{
               >
                 <path
                   d="M130 261.517C23.714 277.06 0 430.018 0 430.018V552.518H1178L1168 143.018C1168 143.018 1129.01 1.62851 1032 0.017794C831.181 -3.31638 628 463.018 445.5 463.018C283.118 463.018 290.673 238.022 130 261.517Z"
-                  fill="#363636"
+                  :fill="mountainFrontColor"
                 />
               </svg>
             </div>
@@ -119,7 +177,7 @@ const emit = defineEmits<{
         </div>
 
         <div
-          v-if="bodyText || !showMountains"
+          v-if="showMountains ? textBlockVisible : !showMountains"
           class="landing__content"
         >
           <div class="landing__text-block">
@@ -206,25 +264,25 @@ const emit = defineEmits<{
       >
         <g class="landing__ellipse-float landing__ellipse-float--bl-1">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-1">
-            <circle cx="16" cy="10" r="8" fill="#5E7AB5" />
+            <circle cx="16" cy="10" r="8" :fill="sunColor" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-2">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-2">
-            <circle cx="16" cy="36" r="8" fill="#5E7AB5" />
+            <circle cx="16" cy="36" r="8" :fill="sunColor" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-3">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-3">
-            <circle cx="16" cy="62" r="8" fill="#5E7AB5" />
+            <circle cx="16" cy="62" r="8" :fill="sunColor" />
           </g>
         </g>
 
         <g class="landing__ellipse-float landing__ellipse-float--bl-4">
           <g class="landing__ellipse-fall landing__ellipse-fall--bl-4">
-            <circle cx="16" cy="88" r="8" fill="#5E7AB5" />
+            <circle cx="16" cy="88" r="8" :fill="sunColor" />
           </g>
         </g>
       </svg>
@@ -236,6 +294,7 @@ const emit = defineEmits<{
         :is="topLabelInteractive ? 'button' : 'p'"
         class="landing__label landing__label--top"
         :class="{ 'landing__label--interactive': topLabelInteractive }"
+        :style="{ color: labelColor }"
         :type="topLabelInteractive ? 'button' : undefined"
         @click="topLabelInteractive && emit('topLabelClick')"
       >
@@ -246,6 +305,7 @@ const emit = defineEmits<{
         :is="bottomLabelInteractive ? 'button' : 'p'"
         class="landing__label landing__label--bottom"
         :class="{ 'landing__label--interactive': bottomLabelInteractive }"
+        :style="{ color: labelColor }"
         :type="bottomLabelInteractive ? 'button' : undefined"
         @click="bottomLabelInteractive && emit('bottomLabelClick')"
       >
@@ -329,7 +389,6 @@ const emit = defineEmits<{
   inset: 2.2% 2%;
   z-index: 1;
   overflow: hidden;
-  background: #ffffff;
   isolation: isolate;
 }
 
@@ -341,6 +400,7 @@ const emit = defineEmits<{
   align-items: center;
   justify-content: center;
   padding: 12% 0%;
+  animation: text-block-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .landing__text-block {
@@ -370,9 +430,10 @@ const emit = defineEmits<{
 .landing__mountain-wrap {
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: -8%;
   transition: transform 0.35s ease-out;
   will-change: transform;
+  pointer-events: none;
 }
 
 .landing__mountain-wrap--back {
@@ -382,17 +443,59 @@ const emit = defineEmits<{
 
 .landing__mountain-sun {
   position: absolute;
-  top: 14%;
   right: 10%;
   width: 26%;
   z-index: 2;
   pointer-events: none;
 }
 
+.landing__mountain-sun--low {
+  top: 22%;
+}
+
+.landing__mountain-sun--high {
+  top: 6%;
+}
+
+.landing__slide:not(.landing__slide--active) .landing__mountain-sun {
+  opacity: 0;
+  animation: none;
+}
+
+.landing__slide--active .landing__mountain-sun--high {
+  animation: sun-arrive-high 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.landing__slide--active .landing__mountain-sun--low {
+  animation: sun-arrive-low 1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
 .landing__mountain-sun-image {
   display: block;
   width: 100%;
   height: auto;
+}
+
+.landing__slide--active .landing__mountain-sun--clickable .landing__mountain-sun-image {
+  animation: sun-pulse 3.5s linear 1.1s infinite;
+}
+
+.landing__mountain-sun-hit {
+  position: absolute;
+  right: 10%;
+  width: 26%;
+  aspect-ratio: 1;
+  z-index: 4;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.landing__mountain-sun-hit:focus-visible {
+  outline: 2px solid #1f1f1f;
+  outline-offset: 4px;
 }
 
 .landing__mountain-wrap--front {
@@ -562,14 +665,12 @@ const emit = defineEmits<{
   top: 17%;
   height: 1%;
   left: -10%;
-  color: #5e7ab5;
 }
 
 .landing__label--bottom {
   bottom: -10%;
   top: 62%;
   right: -5%;
-  color: #5e7ab5;
 }
 
 .landing__slide--active .landing__label--top {
@@ -615,6 +716,62 @@ const emit = defineEmits<{
 
   75% {
     transform: translate(-22px, -36px) scale(1.05) rotate(-3deg);
+  }
+}
+
+@keyframes text-block-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sun-pulse {
+  0%,
+  14.29%,
+  100% {
+    transform: scale(1);
+  }
+
+  3.57% {
+    transform: scale(1.1);
+  }
+
+  7.14% {
+    transform: scale(1);
+  }
+
+  10.71% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes sun-arrive-high {
+  from {
+    top: 22%;
+    opacity: 0;
+  }
+
+  to {
+    top: 6%;
+    opacity: 1;
+  }
+}
+
+@keyframes sun-arrive-low {
+  from {
+    top: 6%;
+    opacity: 0;
+  }
+
+  to {
+    top: 22%;
+    opacity: 1;
   }
 }
 
@@ -687,15 +844,23 @@ const emit = defineEmits<{
   .landing__slide--active .landing__label--bottom,
   .landing__slide--active .landing__ellipse-fall,
   .landing__slide--active .landing__ellipse-float,
+  .landing__slide--active .landing__mountain-sun--high,
+  .landing__slide--active .landing__mountain-sun--low,
+  .landing__slide--active .landing__mountain-sun--clickable .landing__mountain-sun-image,
   .landing__blob-inner--animated {
     animation: none;
   }
 
   .landing__slide--active .landing__bar,
   .landing__slide--active .landing__label,
-  .landing__slide--active .landing__ellipse-fall {
+  .landing__slide--active .landing__ellipse-fall,
+  .landing__slide--active .landing__mountain-sun {
     opacity: 1;
     transform: none;
+  }
+
+  .landing__content {
+    animation: none;
   }
 
   .landing__mountain-inner--animated {
