@@ -741,6 +741,7 @@ function toggleTextBlock() {
   bottom: -10%;
   top: 62%;
   right: -5%;
+  font-size: clamp(7rem, 8.5vw, 12.5rem);
 }
 
 .landing__slide--active .landing__label--top {

@@ -84,7 +84,7 @@ const slides = [
     sunSrc: '/img/ellipse_new_lbue.svg',
     sunColor: '#8CB6FF',
     labelColor: '#DB9330',
-    bottomLabel: 'Interest 1',
+    bottomLabel: 'What I make',
   },
   {
     id: 'page-3',
@@ -97,7 +97,7 @@ const slides = [
     sunSrc: '/img/ellipse_orange.svg',
     sunColor: '#DB9330',
     labelColor: '#C1576E',
-    bottomLabel: 'Interest 2',
+    bottomLabel: 'Why this page',
   },
   {
     id: 'page-4',
@@ -116,9 +116,9 @@ const slides = [
 
 const navItems = [
   { id: 'nav-home', label: 'home', activeLabel: 'HOME' },
-  { id: 'nav-page-2', label: 'page 2' },
-  { id: 'nav-page-3', label: 'page 3' },
-  { id: 'nav-page-4', label: 'page 4' },
+  { id: 'nav-page-2', label: 'about me' },
+  { id: 'nav-page-3', label: 'what I make' },
+  { id: 'nav-page-4', label: 'why this page' },
 ] as const
 
 function navLabel(index: number) {
