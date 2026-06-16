@@ -1,5 +1,6 @@
-## What I like to make
+## About me
 
-I like making websites that are simply, pretty or fun to look at. I like colourful designs and enjoy the proces of building a design to something better. As, for example, this website, was first only some shades of gray. Basically a wireframe where I didnt know what I wanted to achieve.
+My name is Coco van Glabbeek, currently a student at Fontys ICT. Hello :)
+I've through quite a journey academically, mostly because of not really knowing what I want to do and HOW! I like coding and this feeling of building something from scratch and have this cool interactive result that everyone can see, just by simply going to a website on either their phone or pc. Then theres this design part, i love design. I think designing is so much fun, colours, shapes and animations. The way you can create stories or litte puzzles, how you can grasp peoples attention just because they are curious about something so easily. 
 
-I like making stuff in general that just simply brings me joy and doesnt pressure me to convince other people of some kind of bigger meaning. Just fun shapes, colours and maybe something nice to look at as you visit just once.
+With a small background of being involved with both websites, games and even some marketing. I'm feeling prettyu secure in the place i am now, the education im receiving and the road i'm walking. It's finally looking like i might have a really enjoyable carreer and am looking forward to experiencing my first internship on this level as well! :D
