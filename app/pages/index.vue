@@ -21,7 +21,7 @@
         :label-color="'labelColor' in slide ? slide.labelColor : undefined"
         :mountain-back-style="mountainStyle(index, 28)"
         :mountain-front-style="mountainStyle(index, 52)"
-        top-label="Portfolio showcase"
+        :top-label="slide.title"
         :bottom-label="slide.bottomLabel"
         :body-html="getSlideContentHtml(slide.id)"
         bottom-label-interactive
@@ -62,6 +62,7 @@ const staticMountainStyle = { transform: 'translateX(-50%)' }
 const slides = [
   {
     id: 'page-1',
+    title: 'Home',
     showMountains: true,
     animatedMountains: true,
     sunPosition: 'low',
@@ -75,6 +76,7 @@ const slides = [
   },
   {
     id: 'page-2',
+    title: 'About me',
     showMountains: true,
     animatedMountains: false,
     sunPosition: 'high',
@@ -88,6 +90,7 @@ const slides = [
   },
   {
     id: 'page-3',
+    title: 'What I make',
     showMountains: true,
     animatedMountains: false,
     sunPosition: 'low',
@@ -97,10 +100,11 @@ const slides = [
     sunSrc: '/img/ellipse_orange.svg',
     sunColor: '#DB9330',
     labelColor: '#C1576E',
-    bottomLabel: 'Why this page',
+    bottomLabel: 'Why this website',
   },
   {
     id: 'page-4',
+    title: 'Why this website',
     showMountains: true,
     animatedMountains: false,
     sunPosition: 'high',
@@ -118,7 +122,7 @@ const navItems = [
   { id: 'nav-home', label: 'home', activeLabel: 'HOME' },
   { id: 'nav-page-2', label: 'about me' },
   { id: 'nav-page-3', label: 'what I make' },
-  { id: 'nav-page-4', label: 'why this page' },
+  { id: 'nav-page-4', label: 'why this website' },
 ] as const
 
 function navLabel(index: number) {

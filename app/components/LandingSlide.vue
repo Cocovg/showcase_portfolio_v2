@@ -54,6 +54,13 @@ function toggleTextBlock() {
     textBlockVisible.value = !textBlockVisible.value
   }
 }
+
+const bottomEllipses = [
+  { hint: 'This', y: 10 },
+  { hint: 'isn\'t', y: 36 },
+  { hint: 'a', y: 62 },
+  { hint: 'navigationbar', y: 88 },
+] as const
 </script>
 
 <template>
@@ -270,29 +277,39 @@ function toggleTextBlock() {
         viewBox="0 0 32 108"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
+        overflow="visible"
       >
-        <g class="landing__ellipse-float landing__ellipse-float--bl-1">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-1">
-            <circle cx="16" cy="10" r="8" :fill="sunColor" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-2">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-2">
-            <circle cx="16" cy="36" r="8" :fill="sunColor" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-3">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-3">
-            <circle cx="16" cy="62" r="8" :fill="sunColor" />
-          </g>
-        </g>
-
-        <g class="landing__ellipse-float landing__ellipse-float--bl-4">
-          <g class="landing__ellipse-fall landing__ellipse-fall--bl-4">
-            <circle cx="16" cy="88" r="8" :fill="sunColor" />
+        <g
+          v-for="(ellipse, index) in bottomEllipses"
+          :key="ellipse.hint"
+          class="landing__ellipse-float"
+          :class="`landing__ellipse-float--bl-${index + 1}`"
+        >
+          <g
+            class="landing__ellipse-fall landing__ellipse-group"
+            :class="`landing__ellipse-fall--bl-${index + 1}`"
+          >
+            <circle
+              :cx="16"
+              :cy="ellipse.y"
+              r="10"
+              fill="transparent"
+              class="landing__ellipse-hit"
+            />
+            <circle
+              :cx="16"
+              :cy="ellipse.y"
+              r="8"
+              :fill="sunColor"
+            />
+            <text
+              :x="28"
+              :y="ellipse.y + 3"
+              class="landing__ellipse-hint"
+              :class="{ 'landing__ellipse-hint--long': index === 3 }"
+            >
+              {{ ellipse.hint }}
+            </text>
           </g>
         </g>
       </svg>
@@ -652,12 +669,45 @@ function toggleTextBlock() {
   left: 1.5%;
   width: 8%;
   height: 52%;
+  pointer-events: auto;
+  overflow: visible;
+  z-index: 25;
+}
+
+.landing__ellipse-hit {
+  cursor: default;
+  pointer-events: all;
+}
+
+.landing__ellipse-group circle:not(.landing__ellipse-hit) {
+  pointer-events: none;
+}
+
+.landing__ellipse-hint {
+  opacity: 0;
+  fill: #ffffff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 6px;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.landing__ellipse-hint--long {
+  font-size: 4.5px;
+}
+
+.landing__ellipse-group:hover .landing__ellipse-hint {
+  opacity: 1;
 }
 
 .landing__ellipse-fall,
 .landing__ellipse-float {
   transform-box: fill-box;
   transform-origin: top center;
+}
+
+.landing__slide:not(.landing__slide--active) .landing__ellipses--bottom-left {
+  pointer-events: none;
 }
 
 .landing__ellipse-fall {
