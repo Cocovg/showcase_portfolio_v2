@@ -762,10 +762,11 @@ const bottomEllipses = [
 
 .landing__bar-group {
   z-index: 4;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding-top: clamp(1.25rem, 4.8vw, 2.75rem);
+  display: inline-grid;
+  grid-template-rows: var(--bar-height);
+  align-items: end;
+  --bar-height: clamp(1.85rem, 6.5vw, 3.5rem);
+  --label-drop: 0.18em;
 }
 
 .landing__bar-group--top {
@@ -777,12 +778,12 @@ const bottomEllipses = [
 }
 
 .landing__bar-group--bottom {
-  top: calc(90% - clamp(1.25rem, 4.8vw, 2.75rem));
+  top: calc(90% - var(--bar-height));
   right: calc(-50vw + 50%);
   left: auto;
   padding-right: calc(50vw - 50% + 6%);
   padding-inline-start: 0.65rem;
-  align-items: flex-end;
+  justify-items: end;
   max-width: calc(50vw - 50% + 94%);
 }
 
@@ -791,8 +792,15 @@ const bottomEllipses = [
   top: 0;
   left: 0;
   right: 0;
-  height: clamp(1.25rem, 4.8vw, 2.75rem);
-  flex-shrink: 0;
+  height: var(--bar-height);
+}
+
+.landing__bar-group .landing__label {
+  position: relative;
+  z-index: 1;
+  grid-row: 1;
+  align-self: end;
+  transform: translateY(var(--label-drop));
 }
 
 .landing__bar-group--top .landing__bar {
@@ -825,19 +833,15 @@ const bottomEllipses = [
 }
 
 .landing__label {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
   margin: 0;
   font-family: 'Kapakana', cursive;
-  font-size: clamp(5.5rem, 7vw, 9.5rem);
+  font-size: clamp(6rem, 7.8vw, 10.25rem);
   font-weight: 100;
-  line-height: 1;
+  line-height: 0.75;
   overflow: visible;
   white-space: nowrap;
   -webkit-text-stroke: 0.01em currentColor;
   paint-order: stroke fill;
-  transform: translateY(-100%);
 }
 
 .landing__label--interactive {
@@ -858,9 +862,7 @@ const bottomEllipses = [
 }
 
 .landing__label--bottom {
-  align-self: flex-end;
-  justify-content: flex-end;
-  font-size: clamp(5rem, 6vw, 8.5rem);
+  text-align: right;
 }
 
 @keyframes blob-drift {
@@ -1029,24 +1031,24 @@ const bottomEllipses = [
 @keyframes label-slide-in-from-left {
   from {
     opacity: 0;
-    transform: translate(-120%, -100%);
+    transform: translate(calc(-120%), var(--label-drop));
   }
 
   to {
     opacity: 1;
-    transform: translateY(-100%);
+    transform: translateY(var(--label-drop));
   }
 }
 
 @keyframes label-slide-in-from-right {
   from {
     opacity: 0;
-    transform: translate(120%, -100%);
+    transform: translate(120%, var(--label-drop));
   }
 
   to {
     opacity: 1;
-    transform: translateY(-100%);
+    transform: translateY(var(--label-drop));
   }
 }
 
