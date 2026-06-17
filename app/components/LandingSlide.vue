@@ -793,6 +793,7 @@ const bottomEllipses = [
   left: 0;
   right: 0;
   height: var(--bar-height);
+  box-shadow: 0 4px 14px rgba(31, 31, 31, 0.28);
 }
 
 .landing__bar-group .landing__label {
