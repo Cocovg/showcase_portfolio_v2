@@ -78,7 +78,7 @@ const slides = [
     id: 'page-2',
     title: 'About me',
     showMountains: true,
-    animatedMountains: false,
+    animatedMountains: true,
     sunPosition: 'high',
     sceneBackground: '#D4E4FF',
     mountainBackColor: '#DB9330',
@@ -92,7 +92,7 @@ const slides = [
     id: 'page-3',
     title: 'What I make',
     showMountains: true,
-    animatedMountains: false,
+    animatedMountains: true,
     sunPosition: 'low',
     sceneBackground: '#FFCA74',
     mountainBackColor: '#C1576E',
@@ -106,7 +106,7 @@ const slides = [
     id: 'page-4',
     title: 'Why this website',
     showMountains: true,
-    animatedMountains: false,
+    animatedMountains: true,
     sunPosition: 'high',
     sceneBackground: '#383838',
     mountainBackColor: '#7F479D',
@@ -146,7 +146,7 @@ const trackStyle = computed(() => ({
 let motionQuery: MediaQueryList | null = null
 
 function handleMouseMove(event: MouseEvent) {
-  if (prefersReducedMotion.value || currentSlide.value !== 0) {
+  if (prefersReducedMotion.value) {
     return
   }
 
@@ -164,7 +164,7 @@ function handleMotionPreference(event: MediaQueryListEvent) {
 }
 
 function mountainStyle(slideIndex: number, depth: number) {
-  if (slideIndex !== 0 || prefersReducedMotion.value) {
+  if (slideIndex !== currentSlide.value || prefersReducedMotion.value) {
     return staticMountainStyle
   }
 
