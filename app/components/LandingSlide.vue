@@ -69,7 +69,7 @@ const bottomEllipses = [
     :class="{ 'landing__slide--active': isActive }"
     :style="{
       flex: `0 0 ${100 / slideCount}%`,
-      backgroundColor: mountainFrontColor,
+      backgroundColor: sunColor,
     }"
   >
     <!-- Corner blobs (disabled for now)
@@ -314,30 +314,39 @@ const bottomEllipses = [
         </g>
       </svg>
 
-      <div class="landing__bar landing__bar--top" />
-      <div class="landing__bar landing__bar--bottom" />
+      <div class="landing__bar-group landing__bar-group--top">
+        <div
+          class="landing__bar"
+          :style="{ backgroundColor: mountainBackColor }"
+        />
+        <component
+          :is="topLabelInteractive ? 'button' : 'p'"
+          class="landing__label landing__label--top"
+          :class="{ 'landing__label--interactive': topLabelInteractive }"
+          :style="{ color: sunColor }"
+          :type="topLabelInteractive ? 'button' : undefined"
+          @click="topLabelInteractive && emit('topLabelClick')"
+        >
+          {{ topLabel }}
+        </component>
+      </div>
 
-      <component
-        :is="topLabelInteractive ? 'button' : 'p'"
-        class="landing__label landing__label--top"
-        :class="{ 'landing__label--interactive': topLabelInteractive }"
-        :style="{ color: labelColor }"
-        :type="topLabelInteractive ? 'button' : undefined"
-        @click="topLabelInteractive && emit('topLabelClick')"
-      >
-        {{ topLabel }}
-      </component>
-
-      <component
-        :is="bottomLabelInteractive ? 'button' : 'p'"
-        class="landing__label landing__label--bottom"
-        :class="{ 'landing__label--interactive': bottomLabelInteractive }"
-        :style="{ color: labelColor }"
-        :type="bottomLabelInteractive ? 'button' : undefined"
-        @click="bottomLabelInteractive && emit('bottomLabelClick')"
-      >
-        {{ bottomLabel }}
-      </component>
+      <div class="landing__bar-group landing__bar-group--bottom">
+        <div
+          class="landing__bar"
+          :style="{ backgroundColor: mountainBackColor }"
+        />
+        <component
+          :is="bottomLabelInteractive ? 'button' : 'p'"
+          class="landing__label landing__label--bottom"
+          :class="{ 'landing__label--interactive': bottomLabelInteractive }"
+          :style="{ color: sunColor }"
+          :type="bottomLabelInteractive ? 'button' : undefined"
+          @click="bottomLabelInteractive && emit('bottomLabelClick')"
+        >
+          {{ bottomLabel }}
+        </component>
+      </div>
     </div>
   </div>
 </template>
@@ -407,8 +416,7 @@ const bottomEllipses = [
 .landing__scene,
 .landing__frame,
 .landing__ellipses,
-.landing__bar,
-.landing__label {
+.landing__bar-group {
   position: absolute;
 }
 
@@ -752,46 +760,84 @@ const bottomEllipses = [
   opacity: 0;
 }
 
-.landing__bar {
-  height: 6%;
-  background-color: #1F1F1F;
-  z-index: 3;
+.landing__bar-group {
+  z-index: 4;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-top: clamp(1.25rem, 4.8vw, 2.75rem);
 }
 
-.landing__bar--top {
+.landing__bar-group--top {
   top: 16%;
   left: calc(-50vw + 50%);
-  width: calc(5vw + 75%);
+  padding-left: calc(50vw - 50% + 6%);
+  padding-inline-end: 0.65rem;
+  max-width: calc(50vw - 50% + 94%);
 }
 
-.landing__bar--bottom {
-  bottom: 10%;
+.landing__bar-group--bottom {
+  top: calc(90% - clamp(1.25rem, 4.8vw, 2.75rem));
   right: calc(-50vw + 50%);
-  width: calc(5vw + 38%);
+  left: auto;
+  padding-right: calc(50vw - 50% + 6%);
+  padding-inline-start: 0.65rem;
+  align-items: flex-end;
+  max-width: calc(50vw - 50% + 94%);
 }
 
-.landing__slide--active .landing__bar--top {
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+.landing__bar-group .landing__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(1.25rem, 4.8vw, 2.75rem);
+  flex-shrink: 0;
 }
 
-.landing__slide--active .landing__bar--bottom {
-  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+.landing__bar-group--top .landing__bar {
+  transform-origin: left center;
 }
 
-.landing__slide:not(.landing__slide--active) .landing__bar,
-.landing__slide:not(.landing__slide--active) .landing__label {
+.landing__bar-group--bottom .landing__bar {
+  transform-origin: right center;
+}
+
+.landing__slide--active .landing__bar-group--top .landing__bar {
+  animation: bar-slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing__slide--active .landing__bar-group--bottom .landing__bar {
+  animation: bar-slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.landing__slide--active .landing__label--top {
+  animation: label-slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.landing__slide--active .landing__label--bottom {
+  animation: label-slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+}
+
+.landing__slide:not(.landing__slide--active) .landing__bar-group {
   opacity: 0;
   animation: none;
 }
 
 .landing__label {
+  position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin: 0;
   font-family: 'Kapakana', cursive;
-  font-size: clamp(8rem, 10vw, 14rem);
+  font-size: clamp(5.5rem, 7vw, 9.5rem);
+  font-weight: 100;
   line-height: 1;
-  z-index: 4;
+  overflow: visible;
+  white-space: nowrap;
+  -webkit-text-stroke: 0.01em currentColor;
+  paint-order: stroke fill;
+  transform: translateY(-100%);
 }
 
 .landing__label--interactive {
@@ -811,25 +857,10 @@ const bottomEllipses = [
   opacity: 0.85;
 }
 
-.landing__label--top {
-  top: 17%;
-  height: 1%;
-  left: -10%;
-}
-
 .landing__label--bottom {
-  bottom: -10%;
-  top: 62%;
-  right: -5%;
-  font-size: clamp(7rem, 8.5vw, 12.5rem);
-}
-
-.landing__slide--active .landing__label--top {
-  animation: slide-in-from-left 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
-}
-
-.landing__slide--active .landing__label--bottom {
-  animation: slide-in-from-right 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  align-self: flex-end;
+  justify-content: flex-end;
+  font-size: clamp(5rem, 6vw, 8.5rem);
 }
 
 @keyframes blob-drift {
@@ -971,27 +1002,51 @@ const bottomEllipses = [
   }
 }
 
-@keyframes slide-in-from-left {
+@keyframes bar-slide-in-from-left {
   from {
-    opacity: 0;
-    transform: translateX(-120%);
+    opacity: 1;
+    transform: scaleX(0);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: scaleX(1);
   }
 }
 
-@keyframes slide-in-from-right {
+@keyframes bar-slide-in-from-right {
   from {
-    opacity: 0;
-    transform: translateX(120%);
+    opacity: 1;
+    transform: scaleX(0);
   }
 
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: scaleX(1);
+  }
+}
+
+@keyframes label-slide-in-from-left {
+  from {
+    opacity: 0;
+    transform: translate(-120%, -100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes label-slide-in-from-right {
+  from {
+    opacity: 0;
+    transform: translate(120%, -100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-100%);
   }
 }
 
@@ -1019,8 +1074,8 @@ const bottomEllipses = [
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing__slide--active .landing__bar--top,
-  .landing__slide--active .landing__bar--bottom,
+  .landing__slide--active .landing__bar-group--top .landing__bar,
+  .landing__slide--active .landing__bar-group--bottom .landing__bar,
   .landing__slide--active .landing__label--top,
   .landing__slide--active .landing__label--bottom,
   .landing__slide--active .landing__ellipse-fall,
@@ -1033,7 +1088,7 @@ const bottomEllipses = [
     animation: none;
   }
 
-  .landing__slide--active .landing__bar,
+  .landing__slide--active .landing__bar-group,
   .landing__slide--active .landing__label,
   .landing__slide--active .landing__ellipse-fall,
   .landing__slide--active .landing__mountain-sun {
