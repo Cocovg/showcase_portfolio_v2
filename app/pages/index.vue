@@ -234,6 +234,7 @@ onUnmounted(() => {
   padding: 0 1rem;
   border: none;
   background: none;
+  outline: none;
   font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: clamp(0.75rem, 1.4vw, 0.9375rem);
   font-weight: 400;

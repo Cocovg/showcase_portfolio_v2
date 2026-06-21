@@ -39,6 +39,7 @@ const emit = defineEmits<{
 }>()
 
 const textBlockVisible = ref(false)
+const sunHoverHint = 'you might want to click this if you wanna read something'
 
 watch(
   () => props.isActive,
@@ -61,6 +62,21 @@ const bottomEllipses = [
   { hint: 'a', y: 62 },
   { hint: 'navigationbar', y: 88 },
 ] as const
+
+const shakingEllipseIndex = ref<number | null>(null)
+
+function shakeEllipse(index: number) {
+  shakingEllipseIndex.value = null
+  requestAnimationFrame(() => {
+    shakingEllipseIndex.value = index
+  })
+}
+
+function onEllipseShakeEnd(event: AnimationEvent, index: number) {
+  if (event.animationName.endsWith('ellipse-shake') && shakingEllipseIndex.value === index) {
+    shakingEllipseIndex.value = null
+  }
+}
 </script>
 
 <template>
@@ -163,10 +179,18 @@ const bottomEllipses = [
             type="button"
             class="landing__mountain-sun-hit"
             :class="sunPosition === 'low' ? 'landing__mountain-sun--low' : 'landing__mountain-sun--high'"
-            :aria-label="textBlockVisible ? 'Hide text' : 'Show text'"
+            :aria-label="textBlockVisible ? 'Hide text' : sunHoverHint"
             :aria-expanded="textBlockVisible"
             @click="toggleTextBlock"
-          />
+          >
+            <span
+              v-if="!textBlockVisible"
+              class="landing__mountain-sun-hint"
+              aria-hidden="true"
+            >
+              {{ sunHoverHint }}
+            </span>
+          </button>
 
           <div
             class="landing__mountain-wrap landing__mountain-wrap--front"
@@ -283,7 +307,11 @@ const bottomEllipses = [
           v-for="(ellipse, index) in bottomEllipses"
           :key="ellipse.hint"
           class="landing__ellipse-float"
-          :class="`landing__ellipse-float--bl-${index + 1}`"
+          :class="[
+            `landing__ellipse-float--bl-${index + 1}`,
+            { 'landing__ellipse-float--shaking': shakingEllipseIndex === index },
+          ]"
+          @animationend="onEllipseShakeEnd($event, index)"
         >
           <g
             class="landing__ellipse-fall landing__ellipse-group"
@@ -295,6 +323,7 @@ const bottomEllipses = [
               r="10"
               fill="transparent"
               class="landing__ellipse-hit"
+              @click="shakeEllipse(index)"
             />
             <circle
               :cx="16"
@@ -616,11 +645,34 @@ const bottomEllipses = [
   border-radius: 50%;
   background: transparent;
   cursor: pointer;
+  outline: none;
 }
 
-.landing__mountain-sun-hit:focus-visible {
-  outline: 2px solid #1f1f1f;
-  outline-offset: 4px;
+.landing__mountain-sun-hint {
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 0.65rem);
+  left: auto;
+  z-index: 5;
+  width: max-content;
+  max-width: min(11rem, 42vw);
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: clamp(0.5625rem, 0.85vw, 0.6875rem);
+  font-weight: 400;
+  line-height: 1.35;
+  text-align: right;
+  text-shadow: 0 1px 2px rgba(31, 31, 31, 0.45);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.15s ease;
+}
+
+.landing__mountain-sun-hit:hover .landing__mountain-sun-hint {
+  opacity: 1;
 }
 
 .landing__mountain-wrap--front {
@@ -683,8 +735,18 @@ const bottomEllipses = [
 }
 
 .landing__ellipse-hit {
-  cursor: default;
+  cursor: pointer;
   pointer-events: all;
+}
+
+.landing__ellipse-group {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.landing__slide--active .landing__ellipse-float.landing__ellipse-float--shaking {
+  animation: ellipse-shake 0.5s ease-in-out;
+  transform-origin: center;
 }
 
 .landing__ellipse-group circle:not(.landing__ellipse-hit) {
@@ -852,6 +914,7 @@ const bottomEllipses = [
   border: none;
   padding: 0;
   text-align: left;
+  outline: none;
 }
 
 .landing__label--interactive.landing__label--bottom {
@@ -1065,6 +1128,37 @@ const bottomEllipses = [
   }
 }
 
+@keyframes ellipse-shake {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+
+  15% {
+    transform: translate(-6px, 0) rotate(-5deg);
+  }
+
+  30% {
+    transform: translate(6px, 0) rotate(5deg);
+  }
+
+  45% {
+    transform: translate(-6px, 0) rotate(-5deg);
+  }
+
+  60% {
+    transform: translate(6px, 0) rotate(4deg);
+  }
+
+  75% {
+    transform: translate(-3px, 0) rotate(-3deg);
+  }
+
+  90% {
+    transform: translate(3px, 0) rotate(2deg);
+  }
+}
+
 @keyframes ellipse-float {
   0%,
   100% {
@@ -1104,6 +1198,10 @@ const bottomEllipses = [
   }
 
   .landing__mountain-inner--animated {
+    animation: none;
+  }
+
+  .landing__ellipse-float--shaking {
     animation: none;
   }
 
